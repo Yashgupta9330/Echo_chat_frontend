@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:1337",
+  baseURL: "https://grateful-birds-a397c0a882.strapiapp.com",
   headers: {
     "Content-Type": "application/json",
   },
