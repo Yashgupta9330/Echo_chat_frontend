@@ -26,7 +26,7 @@ export default function ChatBox() {
       return;
     }
 
-    const socketConnection = io("wss://whitecar.ddnsking.com", {
+    const socketConnection = io(import.meta.env.VITE_SOCKET_URL, {
       transports: ["websocket"],
     });
     setSocket(socketConnection);
