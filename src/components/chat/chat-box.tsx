@@ -26,7 +26,7 @@ export default function ChatBox() {
       return;
     }
 
-    const socketConnection = io("ws://ec2-3-108-64-113.ap-south-1.compute.amazonaws.com:4000", {
+    const socketConnection = io("wss://ec2-3-108-64-113.ap-south-1.compute.amazonaws.com:4000", {
       transports: ["websocket"],
     });
     setSocket(socketConnection);
