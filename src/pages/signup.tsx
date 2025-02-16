@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -44,6 +44,14 @@ export default function SignUp() {
       confirmPassword: '',
     },
   });
+
+  useEffect(() => {
+      const token = localStorage.getItem('token');
+      console.log("token ", token)
+      if (token) {
+        navigate('/chat');
+      }
+    }, []);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setLoading(true);

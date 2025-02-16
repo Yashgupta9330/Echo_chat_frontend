@@ -2,12 +2,19 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { MessageSquare, Zap, Shield, Smartphone, ArrowRight } from 'lucide-react';
 import { ThemeToggle } from '@/components/themeToggle';
+import { useEffect } from 'react';
 
 
 
 export default function Home() {
   const navigate = useNavigate();
-
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    console.log("token ", token)
+    if (token) {
+      navigate('/chat');
+    }
+  }, []);
 
   return (
     <div className="w-full min-h-screen bg-background">
@@ -19,7 +26,7 @@ export default function Home() {
             <span className="font-bold text-xl">Echo Chat</span>
           </div>
           <div className="flex items-center gap-4">
-            <ThemeToggle/>
+            <ThemeToggle />
             <Button variant="outline" onClick={() => navigate('/login')}>
               Login
             </Button>

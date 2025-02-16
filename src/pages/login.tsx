@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -27,7 +27,13 @@ export default function Login() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    console.log("token ", token)
+    if (token) {
+      navigate('/chat');
+    }
+  }, []);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,7 +49,7 @@ export default function Login() {
         identifier: values.email,
         password: values.password,
       });
-      
+
       const { jwt, user } = response.data;
       localStorage.setItem('token', jwt);
       localStorage.setItem('user', JSON.stringify(user));
@@ -82,64 +88,64 @@ export default function Login() {
               Enter your credentials to sign in
             </p>
           </div>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 dark:text-black">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-left">Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="name@example.com"
-                      type="email"
-                      {...field}
-                      className="border border-gray-300 p-3 rounded-md"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-left">Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter your password"
-                      type="password"
-                      {...field}
-                      className="border border-gray-300 p-3 rounded-md"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button
-              className="w-full p-3 bg-primary text-white dark:text-black rounded-md hover:bg-primary-dark transition-all duration-200"
-              type="submit"
-              disabled={loading}
-            >
-              {loading ? 'Signing in...' : 'Sign in'}
-            </Button>
-          </form>
-        </Form>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 dark:text-black">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-left">Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="name@example.com"
+                        type="email"
+                        {...field}
+                        className="border border-gray-300 p-3 rounded-md"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-left">Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter your password"
+                        type="password"
+                        {...field}
+                        className="border border-gray-300 p-3 rounded-md"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button
+                className="w-full p-3 bg-primary text-white dark:text-black rounded-md hover:bg-primary-dark transition-all duration-200"
+                type="submit"
+                disabled={loading}
+              >
+                {loading ? 'Signing in...' : 'Sign in'}
+              </Button>
+            </form>
+          </Form>
 
-        <div className="text-center text-sm mt-4 dark:text-black">
-          Don’t have an account?{' '}
-          <div
-            className="inline-block p-1 cursor-pointer text-black hover:underline"
-            onClick={() => navigate('/signup')}
-          >
-            Sign up
+          <div className="text-center text-sm mt-4 dark:text-black">
+            Don’t have an account?{' '}
+            <div
+              className="inline-block p-1 cursor-pointer text-black hover:underline"
+              onClick={() => navigate('/signup')}
+            >
+              Sign up
+            </div>
           </div>
         </div>
-      </div>
       </div>
     </div>
   );
